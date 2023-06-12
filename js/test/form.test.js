@@ -25,23 +25,27 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mocha_1 = require("mocha");
 var assert = __importStar(require("assert"));
-var attribute_1 = require("../src/attribute");
-(0, mocha_1.describe)("Attribute", function () {
+var form_1 = require("../src/form");
+(0, mocha_1.describe)("Form", function () {
     (0, mocha_1.it)("basics", function () {
-        var attr = new attribute_1.Attribute('login', function (val) {
-            if ((typeof val === 'string') && (val.length > 7))
+        var form = new form_1.Form();
+        form.addAttribute('login', function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
                 return val;
-            throw new Error("Invalid login");
+            }
+            throw new Error('Invalid login');
         });
-        assert.strictEqual(attr.getName(), 'login');
-        assert.strictEqual(attr.getValueOrNull(), null);
-        try {
-            attr.getValidValue();
-        }
-        catch (e) {
-            assert.strictEqual(e.message, "Invalid login");
-        }
-        attr.loadValue('dasiof12f');
-        assert.strictEqual(attr.getValidValue(), 'dasiof12f');
+        form.addAttribute('pass', function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
+                return val;
+            }
+            throw new Error('Invalid pass');
+        });
+        var dat = {
+            login: 'asd9ad9jasd',
+            pass: '0fkjajasd'
+        };
+        form.load(dat);
+        assert.deepStrictEqual(form.getData(), dat);
     });
 });

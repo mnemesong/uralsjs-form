@@ -6,7 +6,7 @@ export declare class Attribute<N extends string, T> {
     getName(): N;
     getValidValue(): T;
     getValueOrNull(): T | null;
-    setValue(val: T): void;
+    loadValue(val: T): void;
     setValidFunction(validFunc: (val: unknown) => T): void;
     loadAndValidate(data: unknown): void;
 }

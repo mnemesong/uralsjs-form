@@ -26,7 +26,7 @@ export class Attribute<N extends string, T>
         return this.val;
     }
 
-    public setValue(val: T) {
+    public loadValue(val: T) {
         this.val = this.validFunc(val);
     }
 

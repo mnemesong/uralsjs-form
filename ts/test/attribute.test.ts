@@ -18,7 +18,7 @@ describe("Attribute", () => {
         } catch (e) {
             assert.strictEqual(e.message, "Invalid login");
         }
-        attr.setValue('dasiof12f');
+        attr.loadValue('dasiof12f');
         assert.strictEqual(attr.getValidValue(), 'dasiof12f');
     })
 });

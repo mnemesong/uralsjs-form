@@ -17,7 +17,7 @@ var Attribute = /** @class */ (function () {
     Attribute.prototype.getValueOrNull = function () {
         return this.val;
     };
-    Attribute.prototype.setValue = function (val) {
+    Attribute.prototype.loadValue = function (val) {
         this.val = this.validFunc(val);
     };
     Attribute.prototype.setValidFunction = function (validFunc) {

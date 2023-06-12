@@ -1,25 +1,33 @@
+import { type } from "os";
 import { Attribute } from "./attribute";
 
-type Errors = string[];
+export type Errors = string[];
+
+export type ValidFunc = (attrs: Attribute<string, unknown>[]) => Errors;
+
+export type PrintErrFunc = (errs: Errors) => string;
+
+const defValidFunction = (attrs: Attribute<string, unknown>[]) => [];
+
+const defPrintErrFunc = (errs: Errors) => 'Validation errors: ' + errs.join('. ');
 
 export class Form
 {
     private attributes: Attribute<string, unknown>[] = [];
-    private validFunc: (attrs: Attribute<string, unknown>[]) => Errors;
-    private printErrFunc: (errs: Errors) => string;
+    private validFunc: ValidFunc = defValidFunction;
+    private printErrFunc: PrintErrFunc;
     
     public constructor(
         attributes: Attribute<string, unknown>[] = [],
-        validFunc: (attrs: Attribute<string, unknown>[]) => Errors,
-        printErrFunc: (errs: Errors) => string 
-            = (errs) => 'Validation errors: ' +errs.join('. ')
+        validFunc: ValidFunc = defValidFunction,
+        printErrFunc: PrintErrFunc = defPrintErrFunc
     ) {
         this.attributes = attributes;
         this.validFunc = validFunc;
         this.printErrFunc = printErrFunc;
     }
 
-    public load(data: undefined): void
+    public load(data: any): void
     {
         this.attributes.forEach(a => a.loadAndValidate(data));
     }
@@ -33,8 +41,15 @@ export class Form
         return this.validFunc;
     }
 
-    public getData(): unknown {
-        const data = this.attributes.forEach(a => data[a.getName()] = a.getValueOrNull());
+    public getAnyData(): unknown {
+        const data = {};
+        this.attributes.forEach(a => data[a.getName()] = a.getValueOrNull());
+        return data;
+    }
+
+    public getValidData(): unknown {
+        const data = {};
+        this.attributes.forEach(a => data[a.getName()] = a.getValidValue());
         return data;
     }
 
@@ -49,17 +64,13 @@ export class Form
         }
     }
 
-    public withAttribute<N extends string, T>(
+    public addAttribute<N extends string, T>(
         name: N, 
         validFunc: (val: unknown) => T,
         val: T|null = null
-    ): Form {
-        return new Form(
-            this.attributes.concat([
-                new Attribute<N, T>(name, validFunc, val)
-            ]),
-            this.validFunc,
-            this.printErrFunc
-        )
+    ): void {
+        this.attributes = this.attributes.concat([
+            new Attribute<N, T>(name, validFunc, val)
+        ]);
     }
 }
