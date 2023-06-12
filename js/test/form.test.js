@@ -26,8 +26,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var mocha_1 = require("mocha");
 var assert = __importStar(require("assert"));
 var form_1 = require("../src/form");
+var attribute_1 = require("../src/attribute");
 (0, mocha_1.describe)("Form", function () {
-    (0, mocha_1.it)("basics", function () {
+    (0, mocha_1.it)("basics 1", function () {
         var form = new form_1.Form();
         form.addAttribute('login', function (val) {
             if ((typeof val === 'string') && val.length > 6) {
@@ -46,6 +47,49 @@ var form_1 = require("../src/form");
             pass: '0fkjajasd'
         };
         form.load(dat);
-        assert.deepStrictEqual(form.getData(), dat);
+        assert.deepStrictEqual(form.getAnyData(), dat);
+    });
+    (0, mocha_1.it)("basics 2", function () {
+        var validFunc = function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
+                return val;
+            }
+            throw new Error('Invalid login');
+        };
+        var form = new form_1.Form([
+            new attribute_1.Attribute('login', validFunc, 'c4124c1k24c1'),
+            new attribute_1.Attribute('pass', validFunc, 'dmasd8sad90')
+        ]);
+        var dat = {
+            login: 'c4124c1k24c1',
+            pass: 'dmasd8sad90'
+        };
+        assert.deepStrictEqual(form.getAnyData(), dat);
+    });
+    (0, mocha_1.it)("basics 3", function () {
+        var form = new form_1.Form();
+        form.addAttribute('login', function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
+                return val;
+            }
+            throw new Error('Invalid login');
+        });
+        form.addAttribute('pass', function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
+                return val;
+            }
+            throw new Error('Invalid pass');
+        });
+        var dat = {
+            login: 'a412',
+            pass: null
+        };
+        try {
+            form.load(dat);
+            throw new Error("Test error");
+        }
+        catch (e) {
+            assert.strictEqual('Invalid login', e.message);
+        }
     });
 });

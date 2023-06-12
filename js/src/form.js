@@ -24,9 +24,14 @@ var Form = /** @class */ (function () {
     Form.prototype.getValidFunction = function () {
         return this.validFunc;
     };
-    Form.prototype.getData = function () {
+    Form.prototype.getAnyData = function () {
         var data = {};
         this.attributes.forEach(function (a) { return data[a.getName()] = a.getValueOrNull(); });
+        return data;
+    };
+    Form.prototype.getValidData = function () {
+        var data = {};
+        this.attributes.forEach(function (a) { return data[a.getName()] = a.getValidValue(); });
         return data;
     };
     Form.prototype.validate = function () {

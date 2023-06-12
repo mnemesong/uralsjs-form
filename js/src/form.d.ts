@@ -10,7 +10,8 @@ export declare class Form {
     load(data: any): void;
     setValidFunc(func: (attrs: Attribute<string, unknown>[]) => Errors): void;
     getValidFunction(): ValidFunc;
-    getData(): unknown;
+    getAnyData(): unknown;
+    getValidData(): unknown;
     validate(): Errors;
     validateStrictly(): void;
     addAttribute<N extends string, T>(name: N, validFunc: (val: unknown) => T, val?: T | null): void;
