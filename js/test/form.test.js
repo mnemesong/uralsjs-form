@@ -42,6 +42,11 @@ var attribute_1 = require("../src/attribute");
             }
             throw new Error('Invalid pass');
         });
+        form.setValidFunc(function (attrs) { return attrs.map(function (a) { return (a.getName() !== 'login')
+            ? null
+            : ((a.getValueOrNull() === 'asd9ad9jasd')
+                ? null
+                : "Login does not exist"); }).filter(function (a) { return (a !== null); }); });
         var dat = {
             login: 'asd9ad9jasd',
             pass: '0fkjajasd'
@@ -90,6 +95,33 @@ var attribute_1 = require("../src/attribute");
         }
         catch (e) {
             assert.strictEqual('Invalid login', e.message);
+        }
+    });
+    (0, mocha_1.it)("basics 4", function () {
+        var form = new form_1.Form();
+        form.addAttribute('login', function (val) {
+            if ((typeof val === 'string') && val.length > 6) {
+                return val;
+            }
+            throw new Error('Invalid login');
+        });
+        form.setPrintErrFunc(function (errs) { return 'Errs: ' + errs.join(''); });
+        form.setValidFunc(function (attrs) { return attrs.map(function (a) { return (a.getName() !== 'login')
+            ? null
+            : ((a.getValueOrNull() === 'asd9ad9jasd')
+                ? null
+                : "Login does not exist"); }).filter(function (a) { return (a !== null); }); });
+        var dat = {
+            login: 'a412vu9v2359',
+            pass: null
+        };
+        try {
+            form.load(dat);
+            form.validateStrictly();
+            throw new Error("Test error");
+        }
+        catch (e) {
+            assert.strictEqual("Errs: Login does not exist", e.message);
         }
     });
 });

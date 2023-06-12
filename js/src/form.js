@@ -21,6 +21,9 @@ var Form = /** @class */ (function () {
     Form.prototype.setValidFunc = function (func) {
         this.validFunc = func;
     };
+    Form.prototype.setPrintErrFunc = function (func) {
+        this.printErrFunc = func;
+    };
     Form.prototype.getValidFunction = function () {
         return this.validFunc;
     };

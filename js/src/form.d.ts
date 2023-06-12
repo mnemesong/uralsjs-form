@@ -8,7 +8,8 @@ export declare class Form {
     private printErrFunc;
     constructor(attributes?: Attribute<string, unknown>[], validFunc?: ValidFunc, printErrFunc?: PrintErrFunc);
     load(data: any): void;
-    setValidFunc(func: (attrs: Attribute<string, unknown>[]) => Errors): void;
+    setValidFunc(func: ValidFunc): void;
+    setPrintErrFunc(func: PrintErrFunc): void;
     getValidFunction(): ValidFunc;
     getAnyData(): unknown;
     getValidData(): unknown;

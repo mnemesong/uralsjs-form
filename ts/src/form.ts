@@ -31,9 +31,14 @@ export class Form
         this.attributes.forEach(a => a.loadAndValidate(data));
     }
 
-    public setValidFunc(func: (attrs: Attribute<string, unknown>[]) => Errors): void
+    public setValidFunc(func: ValidFunc): void
     {
         this.validFunc = func;
+    }
+
+    public setPrintErrFunc(func: PrintErrFunc): void
+    {
+        this.printErrFunc = func;
     }
 
     public getValidFunction() {
