@@ -16,4 +16,6 @@ export declare class Form {
     validate(): Errors;
     validateStrictly(): void;
     addAttribute<N extends string, T>(name: N, validFunc: (val: unknown) => T, val?: T | null): void;
+    getAttribute(attr: string): Attribute<typeof attr, unknown> | null;
+    getAttributeValOrDef<T>(attr: string, defVal: T): T;
 }

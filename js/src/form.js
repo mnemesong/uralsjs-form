@@ -52,6 +52,23 @@ var Form = /** @class */ (function () {
             new attribute_1.Attribute(name, validFunc, val)
         ]);
     };
+    Form.prototype.getAttribute = function (attr) {
+        this.attributes.forEach(function (a) {
+            if (a.getName() === attr) {
+                return a;
+            }
+        });
+        throw new Error("Attribute " + attr + ' does not exist in form');
+    };
+    Form.prototype.getAttributeValOrDef = function (attr, defVal) {
+        var a = this.getAttribute(attr);
+        try {
+            return a.getValidValue();
+        }
+        catch (e) {
+            return defVal;
+        }
+    };
     return Form;
 }());
 exports.Form = Form;
