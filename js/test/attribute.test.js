@@ -28,7 +28,20 @@ var assert = __importStar(require("assert"));
 var attribute_1 = require("../src/attribute");
 (0, mocha_1.describe)("Attribute", function () {
     (0, mocha_1.it)("basics", function () {
-        var attr = new attribute_1.Attribute('login', function (val) { return (typeof val === 'string') && (val.length > 7); });
+        var attr = new attribute_1.Attribute('login', function (val) {
+            if ((typeof val === 'string') && (val.length > 7))
+                return val;
+            throw new Error("Invalid login");
+        });
+        assert.strictEqual(attr.getName(), 'login');
         assert.strictEqual(attr.getValueOrNull(), null);
+        try {
+            attr.getValidValue();
+        }
+        catch (e) {
+            assert.strictEqual(e.message, "Invalid login");
+        }
+        attr.setValue('dasiof12f');
+        assert.strictEqual(attr.getValidValue(), 'dasiof12f');
     });
 });

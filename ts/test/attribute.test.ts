@@ -6,8 +6,19 @@ describe("Attribute", () => {
     it("basics", () => {
         const attr = new Attribute(
             'login', 
-            (val) => (typeof val === 'string') && (val.length > 7)
+            (val) => {
+                if((typeof val === 'string') && (val.length > 7)) return val;
+                throw new Error("Invalid login");
+            }
         );
+        assert.strictEqual(attr.getName(), 'login');
         assert.strictEqual(attr.getValueOrNull(), null);
+        try{
+            attr.getValidValue()
+        } catch (e) {
+            assert.strictEqual(e.message, "Invalid login");
+        }
+        attr.setValue('dasiof12f');
+        assert.strictEqual(attr.getValidValue(), 'dasiof12f');
     })
 });
