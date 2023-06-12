@@ -1,4 +1,3 @@
-import { type } from "os";
 import { Attribute } from "./attribute";
 
 export type Errors = string[];
