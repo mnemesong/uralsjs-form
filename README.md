@@ -84,6 +84,12 @@ export class Form
         validFunc: (val: unknown) => T,
         val: T|null = null
     ): void {...}
+
+    public getAttribute(
+        attr: string
+    ): Attribute<typeof attr, unknown>|null{...}
+
+    public getAttributeValOrDef<T>(attr: string, defVal: T): T {...}
 }
 ```
 

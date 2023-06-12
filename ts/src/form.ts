@@ -77,4 +77,24 @@ export class Form
             new Attribute<N, T>(name, validFunc, val)
         ]);
     }
+
+    public getAttribute(attr: string): Attribute<typeof attr, unknown>|null 
+    {
+        this.attributes.forEach(a => {
+            if(a.getName() === attr) {
+                return a;
+            }
+        });
+        throw new Error("Attribute " + attr + ' does not exist in form');
+    }
+
+    public getAttributeValOrDef<T>(attr: string, defVal: T): T
+    {
+        const a = this.getAttribute(attr);
+        try {
+            return a.getValidValue() as T;
+        } catch (e) {
+            return defVal;
+        }
+    }
 }
