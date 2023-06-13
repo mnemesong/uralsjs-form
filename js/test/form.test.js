@@ -69,6 +69,7 @@ var attribute_1 = require("../src/attribute");
             login: 'c4124c1k24c1',
             pass: 'dmasd8sad90'
         };
+        assert.strictEqual(form.getAttributeValOrDef('login', ''), 'c4124c1k24c1');
         assert.deepStrictEqual(form.getAnyData(), dat);
     });
     (0, mocha_1.it)("basics 3", function () {

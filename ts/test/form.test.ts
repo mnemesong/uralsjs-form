@@ -49,6 +49,7 @@ describe("Form", () => {
             login: 'c4124c1k24c1',
             pass: 'dmasd8sad90'
         };
+        assert.strictEqual(form.getAttributeValOrDef('login', ''), 'c4124c1k24c1')
         assert.deepStrictEqual(form.getAnyData(), dat)
     });
 

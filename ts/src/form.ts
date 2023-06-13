@@ -80,12 +80,13 @@ export class Form
 
     public getAttribute(attr: string): Attribute<typeof attr, unknown>|null 
     {
+        let attrResult: Attribute<typeof attr, unknown>|null = null;
         this.attributes.forEach(a => {
             if(a.getName() === attr) {
-                return a;
+                attrResult = a;
             }
         });
-        throw new Error("Attribute " + attr + ' does not exist in form');
+        return attrResult;
     }
 
     public getAttributeValOrDef<T>(attr: string, defVal: T): T
